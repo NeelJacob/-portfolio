@@ -1,24 +1,24 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { 
-  Mail, 
-  MapPin, 
-  Github, 
-  Linkedin, 
-  Send, 
-  CheckCircle2, 
+import { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  Mail,
+  MapPin,
+  Github,
+  Linkedin,
+  Send,
+  CheckCircle2,
   AlertCircle,
   Download,
   MessageSquare,
-  Calendar
-} from 'lucide-react'
-import { personalInfo } from '../data/content'
+  Calendar,
+} from "lucide-react";
+import { personalInfo } from "../data/content";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
-}
+  transition: { duration: 0.5 },
+};
 
 function PageHeader() {
   return (
@@ -32,66 +32,76 @@ function PageHeader() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-accent font-mono text-sm uppercase tracking-wider">Get in Touch</span>
+          <span className="text-accent font-mono text-sm uppercase tracking-wider">
+            Get in Touch
+          </span>
           <h1 className="text-4xl md:text-5xl font-display font-bold text-white mt-2 mb-4">
             Let's Work Together
           </h1>
           <p className="text-xl text-slate-400 max-w-2xl">
-            I'm currently looking for new opportunities. Whether you have a role that might be a good fit
-            or just want to say hi, I'd love to hear from you.
+            I'm currently looking for new opportunities. Whether you have a role
+            that might be a good fit or just want to say hi, I'd love to hear
+            from you.
           </p>
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
 
 function ContactForm() {
   const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  })
-  const [status, setStatus] = useState('idle') // idle, sending, success, error
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [status, setStatus] = useState("idle"); // idle, sending, success, error
 
   const handleChange = (e) => {
-    setFormState(prev => ({
+    setFormState((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
-    }))
-  }
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setStatus('sending')
+    e.preventDefault();
+    setStatus("sending");
 
     // Simulate form submission
     // In production, you'd use EmailJS, Formspree, or your own backend
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      setStatus('success')
-      setFormState({ name: '', email: '', subject: '', message: '' })
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setStatus("success");
+      setFormState({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
-      setStatus('error')
+      setStatus("error");
     }
-  }
+  };
 
   return (
     <motion.form
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
+      name="contact"
+      method="POST"
+      data-netlify="true"
       onSubmit={handleSubmit}
       className="card"
     >
+      <input type="hidden" name="form-name" value="contact" />
       <h2 className="text-xl font-semibold text-white mb-6">Send a Message</h2>
 
       <div className="space-y-4">
         {/* Name & Email Row */}
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-slate-300 mb-2"
+            >
               Your Name
             </label>
             <input
@@ -106,7 +116,10 @@ function ContactForm() {
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-slate-300 mb-2"
+            >
               Email Address
             </label>
             <input
@@ -124,7 +137,10 @@ function ContactForm() {
 
         {/* Subject */}
         <div>
-          <label htmlFor="subject" className="block text-sm font-medium text-slate-300 mb-2">
+          <label
+            htmlFor="subject"
+            className="block text-sm font-medium text-slate-300 mb-2"
+          >
             Subject
           </label>
           <input
@@ -141,7 +157,10 @@ function ContactForm() {
 
         {/* Message */}
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-slate-300 mb-2">
+          <label
+            htmlFor="message"
+            className="block text-sm font-medium text-slate-300 mb-2"
+          >
             Message
           </label>
           <textarea
@@ -159,10 +178,10 @@ function ContactForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={status === 'sending'}
-          className={`btn btn-primary w-full ${status === 'sending' ? 'opacity-70 cursor-not-allowed' : ''}`}
+          disabled={status === "sending"}
+          className={`btn btn-primary w-full ${status === "sending" ? "opacity-70 cursor-not-allowed" : ""}`}
         >
-          {status === 'sending' ? (
+          {status === "sending" ? (
             <>
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               Sending...
@@ -176,7 +195,7 @@ function ContactForm() {
         </button>
 
         {/* Status Messages */}
-        {status === 'success' && (
+        {status === "success" && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -187,45 +206,47 @@ function ContactForm() {
           </motion.div>
         )}
 
-        {status === 'error' && (
+        {status === "error" && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center gap-2 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400"
           >
             <AlertCircle className="w-5 h-5 flex-shrink-0" />
-            <span>Something went wrong. Please try again or email me directly.</span>
+            <span>
+              Something went wrong. Please try again or email me directly.
+            </span>
           </motion.div>
         )}
       </div>
     </motion.form>
-  )
+  );
 }
 
 function ContactInfo() {
   const contactMethods = [
     {
       icon: Mail,
-      label: 'Email',
+      label: "Email",
       value: personalInfo.email,
       href: `mailto:${personalInfo.email}`,
-      description: 'Best for formal inquiries',
+      description: "Best for formal inquiries",
     },
     {
       icon: Linkedin,
-      label: 'LinkedIn',
-      value: 'Connect with me',
+      label: "LinkedIn",
+      value: "Connect with me",
       href: personalInfo.linkedin,
-      description: 'Let\'s grow our network',
+      description: "Let's grow our network",
     },
     {
       icon: Github,
-      label: 'GitHub',
-      value: 'View my code',
+      label: "GitHub",
+      value: "View my code",
       href: personalInfo.github,
-      description: 'Check out my projects',
+      description: "Check out my projects",
     },
-  ]
+  ];
 
   return (
     <motion.div
@@ -236,13 +257,15 @@ function ContactInfo() {
     >
       {/* Contact Methods */}
       <div className="card">
-        <h2 className="text-xl font-semibold text-white mb-6">Other Ways to Reach Me</h2>
+        <h2 className="text-xl font-semibold text-white mb-6">
+          Other Ways to Reach Me
+        </h2>
         <div className="space-y-4">
           {contactMethods.map((method, index) => (
             <a
               key={index}
               href={method.href}
-              target={method.href.startsWith('mailto') ? undefined : '_blank'}
+              target={method.href.startsWith("mailto") ? undefined : "_blank"}
               rel="noopener noreferrer"
               className="flex items-start gap-4 p-4 rounded-xl bg-dark hover:bg-dark-lighter transition-colors group"
             >
@@ -253,7 +276,9 @@ function ContactInfo() {
                 <div className="font-medium text-white group-hover:text-accent transition-colors">
                   {method.label}
                 </div>
-                <div className="text-sm text-slate-400">{method.description}</div>
+                <div className="text-sm text-slate-400">
+                  {method.description}
+                </div>
               </div>
             </a>
           ))}
@@ -320,28 +345,28 @@ function ContactInfo() {
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
 
 function FAQ() {
   const faqs = [
     {
       q: "What roles are you looking for?",
-      a: "Junior Python/Backend Developer, Graduate Software Engineer, Junior Data Engineer, ML Engineer, or Data Analyst roles. I'm particularly interested in AI startups and companies building interesting products."
+      a: "Junior Python/Backend Developer, Graduate Software Engineer, Junior Data Engineer, ML Engineer, or Data Analyst roles. I'm particularly interested in AI startups and companies building interesting products.",
     },
     {
       q: "Are you open to relocation?",
-      a: "I'm currently in London on a Graduate Visa. I'm open to roles in the UK (remote, hybrid, or on-site) and would also consider relocating to India."
+      a: "I'm currently in London on a Graduate Visa. I'm open to roles in the UK (remote, hybrid, or on-site) and would also consider relocating to India.",
     },
     {
       q: "What's your notice period?",
-      a: "I'm currently available immediately and can start as soon as the hiring process is complete."
+      a: "I'm currently available immediately and can start as soon as the hiring process is complete.",
     },
     {
       q: "Do you freelance?",
-      a: "I'm primarily looking for full-time roles, but I'm open to discussing interesting freelance or contract opportunities in backend development or ML."
+      a: "I'm primarily looking for full-time roles, but I'm open to discussing interesting freelance or contract opportunities in backend development or ML.",
     },
-  ]
+  ];
 
   return (
     <section className="py-20 bg-dark-light/30">
@@ -352,7 +377,9 @@ function FAQ() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <span className="text-accent font-mono text-sm uppercase tracking-wider">FAQ</span>
+          <span className="text-accent font-mono text-sm uppercase tracking-wider">
+            FAQ
+          </span>
           <h2 className="text-3xl font-display font-bold text-white mt-2">
             Common Questions
           </h2>
@@ -376,14 +403,14 @@ function FAQ() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
 
 export default function Contact() {
   return (
     <>
       <PageHeader />
-      
+
       <section className="pb-20">
         <div className="container-custom">
           <div className="grid lg:grid-cols-5 gap-8">
@@ -399,5 +426,5 @@ export default function Contact() {
 
       <FAQ />
     </>
-  )
+  );
 }
