@@ -69,12 +69,22 @@ function ContactForm() {
     e.preventDefault();
     setStatus("sending");
 
-    // Simulate form submission
-    // In production, you'd use EmailJS, Formspree, or your own backend
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setStatus("success");
-      setFormState({ name: "", email: "", subject: "", message: "" });
+      const form = e.target;
+      const formData = new FormData(form);
+
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString(),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setFormState({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setStatus("error");
+      }
     } catch (error) {
       setStatus("error");
     }
