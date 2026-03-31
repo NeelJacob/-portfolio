@@ -69,14 +69,13 @@ function ContactForm() {
     e.preventDefault();
     setStatus("sending");
 
-    try {
-      const form = e.target;
-      const formData = new FormData(form);
+    const form = e.target;
+    const formData = new FormData(form);
 
-      const response = await fetch("https://neeljacobjogy.com/", {
+    try {
+      const response = await fetch("/", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData).toString(),
+        body: formData,
       });
 
       if (response.ok) {
@@ -97,6 +96,7 @@ function ContactForm() {
       transition={{ duration: 0.5, delay: 0.1 }}
       name="contact"
       method="POST"
+      action="/"
       data-netlify="true"
       onSubmit={handleSubmit}
       className="card"
