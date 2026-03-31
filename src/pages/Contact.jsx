@@ -13,6 +13,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { personalInfo } from "../data/content";
+import { trackEvent } from "../utils/analytics";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -80,6 +81,7 @@ function ContactForm() {
 
       if (response.ok) {
         setStatus("success");
+        trackEvent('contact_form_submit');
         setFormState({ name: "", email: "", subject: "", message: "" });
       } else {
         setStatus("error");
@@ -339,6 +341,9 @@ function ContactInfo() {
           <a
             href={personalInfo.resumeUrl}
             download
+            onClick={() =>
+              trackEvent("cv_download", { cv_type: "software_engineer" })
+            }
             className="btn btn-primary w-full text-sm"
           >
             <Download className="w-4 h-4" />
@@ -347,6 +352,9 @@ function ContactInfo() {
           <a
             href={personalInfo.resumeDAUrl}
             download
+            onClick={() =>
+              trackEvent("cv_download", { cv_type: "data_analyst" })
+            }
             className="btn btn-secondary w-full text-sm"
           >
             <Download className="w-4 h-4" />
